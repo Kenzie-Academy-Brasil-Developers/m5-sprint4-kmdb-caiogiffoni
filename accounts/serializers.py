@@ -12,7 +12,7 @@ class UserSerializer(serializers.Serializer):
     username = serializers.CharField(
         validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    password = serializers.IntegerField(write_only=True)
+    password = serializers.CharField(write_only=True)
     first_name = serializers.CharField()
     last_name = serializers.CharField()
 
@@ -25,4 +25,4 @@ class UserSerializer(serializers.Serializer):
     is_superuser = serializers.BooleanField(read_only=True, default=False)
 
     def create(self, validated_data: dict) -> User:
-        return User.objects.create(**validated_data)
+        return User.objects.create_user(**validated_data)

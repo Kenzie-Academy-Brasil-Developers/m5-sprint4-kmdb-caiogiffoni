@@ -37,6 +37,16 @@ create on app dir urls.py w:
 
 no return não esquecer de colocar model_to_dict e importar from django.forms.models import model_to_dict
 
+depois da implementacao do serializerm i model_to_dict fica inutilizado.
+
+----
+
+model user de abstract user
+lembrar de no fim do setting colocar
+AUTH_USER_MODEL = "accounts.User"
+
+    "rest_framework.authtoken",
+
 
 
 """
