@@ -1,3 +1,5 @@
+from email import message
+
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -6,11 +8,11 @@ from accounts.models import User
 
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    email = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all())]
-    )
     username = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all())]
+        validators=[UniqueValidator(queryset=User.objects.all(), message="Username already exists")]
+    )
+    email = serializers.CharField(
+        validators=[UniqueValidator(queryset=User.objects.all(), message="Email already exists")]
     )
     password = serializers.CharField(write_only=True)
     first_name = serializers.CharField()
