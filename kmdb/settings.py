@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "accounts",
     "genres",
     "movies",
+    "reviews",
     "rest_framework.authtoken",
 ]
 

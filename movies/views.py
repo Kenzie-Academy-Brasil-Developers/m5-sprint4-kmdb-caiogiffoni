@@ -34,13 +34,24 @@ class MoviesDetailView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminOrReadOnly]
 
-    def get(self, request: Request, movie_id) -> Response:
+    def get(self, request: Request, movie_id: int) -> Response:
         movie = get_object_or_404(Movie, id=movie_id)
         serializer = MovieSerializer(movie)
 
         return Response(serializer.data)
 
-    def delete(self, request: Request, movie_id) -> Response:
+    def patch(self, request: Request, movie_id: int) -> Response:
+        movie = get_object_or_404(Movie, id=movie_id)
+
+        serializer = MovieSerializer(movie, data=request.data, partial=True)
+
+        serializer.is_valid(raise_exception=True)
+
+        serializer.save()
+
+        return Response(serializer.data)
+
+    def delete(self, request: Request, movie_id: int) -> Response:
         movie = get_object_or_404(Movie, id=movie_id)
 
         movie.delete()

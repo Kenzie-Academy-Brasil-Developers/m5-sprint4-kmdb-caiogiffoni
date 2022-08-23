@@ -9,10 +9,18 @@ from accounts.models import User
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     username = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all(), message="Username already exists")]
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(), message="Username already exists"
+            )
+        ]
     )
     email = serializers.CharField(
-        validators=[UniqueValidator(queryset=User.objects.all(), message="Email already exists")]
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(), message="Email already exists"
+            )
+        ]
     )
     password = serializers.CharField(write_only=True)
     first_name = serializers.CharField()
@@ -28,3 +36,10 @@ class UserSerializer(serializers.Serializer):
 
     def create(self, validated_data: dict) -> User:
         return User.objects.create_user(**validated_data)
+
+
+class UserReviewSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+

@@ -24,3 +24,17 @@ class MovieSerializer(serializers.Serializer):
         movie.genres.add(*genres)
 
         return movie
+
+    def update(self, instance: Movie, validated_data: dict) -> Movie:
+        genres_data = validated_data.pop("genres", [])
+        genres = [
+            Genre.objects.get_or_create(**genre)[0] for genre in genres_data
+        ]
+        for key, value in validated_data.items():
+            setattr(instance, key, value)
+
+        instance.genres.set(genres)
+
+        instance.save()
+
+        return instance
