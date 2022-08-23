@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from genres.models import Genre
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView, Request, Response, status
 
@@ -11,15 +12,17 @@ from movies.serializers import MovieSerializer
 # Create your views here.
 
 
-class MoviesView(APIView):
+class MoviesView(APIView, PageNumberPagination):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request: Request) -> Response:
         movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
+        result_page = self.paginate_queryset(movies, request, view=self)
 
-        return Response(serializer.data)
+        serializer = MovieSerializer(result_page, many=True)
+
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request: Request) -> Response:
         serializer = MovieSerializer(data=request.data)
