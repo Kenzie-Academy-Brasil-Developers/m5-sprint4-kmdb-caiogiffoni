@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.views import APIView, Request, Response, status
 
 from reviews.models import Review
-from reviews.permissions import IsAdminOrCritic, IsAdminOrOwner
+from reviews.permissions import IsAdminOrCriticOrReadOnly, IsAdminOrOwner
 from reviews.serializers import ReviewSerializer
 
 # Create your views here.
@@ -18,7 +18,7 @@ class ValidationUniqueError(Exception):
 
 class ReviewView(APIView, PageNumberPagination):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAdminOrCritic]
+    permission_classes = [IsAdminOrCriticOrReadOnly]
 
     def get(self, request: Request, movie_id: int) -> Response:
         reviews = get_list_or_404(Review, movie_id=movie_id)

@@ -1,12 +1,15 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404, render
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView, Request, Response, status
 
 from accounts.models import User
 from accounts.permissions import IsAdminOrOwner
-from accounts.serializers import UserSerializer
+from accounts.serializers import LoginSerializer, UserSerializer
 
 
 class UserRegister(APIView):
@@ -41,3 +44,25 @@ class UserViewUnique(APIView):
         serializer = UserSerializer(user)
 
         return Response(serializer.data)
+
+
+class AuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = LoginSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+
+        user = authenticate(**serializer.validated_data)
+
+        if not user:
+            return Response(
+                {"detail": "invalid credentials"}, status.HTTP_400_BAD_REQUEST
+            )
+
+        token, created = Token.objects.get_or_create(user=user)
+
+        return Response(
+            {
+                "token": token.key,
+            }
+        )

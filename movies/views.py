@@ -1,8 +1,7 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404, render
-from genres.models import Genre
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView, Request, Response, status
 
 from movies.models import Movie
@@ -25,6 +24,7 @@ class MoviesView(APIView, PageNumberPagination):
         return self.get_paginated_response(serializer.data)
 
     def post(self, request: Request) -> Response:
+
         serializer = MovieSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 

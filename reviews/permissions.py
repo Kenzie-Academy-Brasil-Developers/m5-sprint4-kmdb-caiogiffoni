@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import permissions
 
 
-class IsAdminOrCritic(permissions.BasePermission):
+class IsAdminOrCriticOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
             request.method in permissions.SAFE_METHODS
