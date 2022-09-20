@@ -20,7 +20,7 @@ Aplicação de gerenciamento de filmes estilo IMDB com autenticação de usuári
 
 ## 🌐 Deploy
 
-[Link do deploy](https://dollar-store-api.herokuapp.com/api/docs/)
+[Link do deploy](https://kmdb-caio.herokuapp.com/api/docs/)
 
 # Instruções:
  
