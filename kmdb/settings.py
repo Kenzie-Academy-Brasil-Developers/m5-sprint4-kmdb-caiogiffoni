@@ -79,6 +79,13 @@ TEMPLATES = [
     },
 ]
 
+SPECTACULAR_SETTINGS = {
+    "TITLE": "KMDB API",
+    "DESCRIPTION": "Backend application for movies and reviews management ",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
 WSGI_APPLICATION = "kmdb.wsgi.application"
 
 
