@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     "movies",
     "reviews",
     "rest_framework.authtoken",
-    "drf-spectacular",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
